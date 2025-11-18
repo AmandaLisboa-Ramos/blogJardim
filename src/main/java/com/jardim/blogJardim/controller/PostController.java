@@ -64,11 +64,27 @@ public class PostController {
 
     // Adicionar comentário a um post
     @PostMapping("/{id}/comentarios")
-    public ResponseEntity<Comentario> adicionarComentario(@PathVariable Long id, @RequestBody Comentario comentario) {
+    public ResponseEntity<Comentario> adicionarComentario(
+            @PathVariable Long id, @RequestBody Comentario comentario) {
+
         return postRepository.findById(id).map(post -> {
+
             comentario.setPost(post);
-            return ResponseEntity.ok(comentarioRepository.save(comentario));
+            post.getComentarios().add(comentario); // importante!
+
+            comentarioRepository.save(comentario);
+            postRepository.save(post);
+
+            return ResponseEntity.ok(comentario);
         }).orElse(ResponseEntity.notFound().build());
+    }
+
+    
+    @GetMapping("/{id}/comentarios")
+    public ResponseEntity<List<Comentario>> listarComentarios(@PathVariable Long id) {
+        return postRepository.findById(id)
+                .map(post -> ResponseEntity.ok(post.getComentarios()))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // Dar "amei" a um post

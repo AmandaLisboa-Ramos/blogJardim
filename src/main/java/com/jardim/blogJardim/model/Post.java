@@ -79,4 +79,8 @@ public class Post {
 	public List<Comentario> getComentarios() {
 		return comentarios;
 	}
+	public void setComentarios(List<Comentario> comentarios) {
+	    this.comentarios = comentarios;
+	}
+
 }
