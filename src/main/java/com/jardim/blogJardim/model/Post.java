@@ -14,7 +14,10 @@ public class Post {
 	private Long id;
 
 	private String titulo;
-	private String conteudo;
+	
+	@Column(columnDefinition = "TEXT") 
+    private String conteudo;
+	
 	private String autor;
 	private String email;
 	private LocalDate dataPublicacao = LocalDate.now();
